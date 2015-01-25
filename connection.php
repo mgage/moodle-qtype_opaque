@@ -65,13 +65,14 @@ class qtype_opaque_connection {
         } else {
             $class = 'qtype_opaque_soap_client_with_timeout';
         }
-
+        print_object("Constructing a soap client pointing to".$url.'?wsdl');
         $this->soapclient = new $class($url . '?wsdl', array(
                     'soap_version'       => SOAP_1_1,
                     'exceptions'         => true,
                     'connection_timeout' => $engine->timeout,
                     'features'           => SOAP_SINGLE_ELEMENT_ARRAYS,
                 ));
+        print_object("connection.php: connecting to ".$url);
         $engine->urlused = $url;
 
         $this->questionbanks = $engine->questionbanks;
@@ -104,7 +105,11 @@ class qtype_opaque_connection {
      * @return some XML, as parsed by xmlize giving the status of the engine.
      */
     public function get_engine_info() {
+        print_object("connection.php: get engineInfo");
+        print_object($this->soapclient);
         $getengineinforesult = $this->soapclient->getEngineInfo();
+        print_object("result");
+        print_object($getengineinforesult);
         return xmlize($getengineinforesult);
     }
 
@@ -166,7 +171,12 @@ class qtype_opaque_soap_client_with_timeout extends SoapClient {
      * @see SoapClient::__doRequest()
      */
     public function __doRequest($request, $location, $action, $version, $one_way = false) {
-
+        print_object( "do request: request, location, action, version ");
+        print_object($request);
+        print_object($location);
+        print_object($action);
+        print_object($version);
+        
         $headers = $this->headers;
         if ($action) {
             $headers[] = 'SOAPAction: ' . $action;
@@ -178,8 +188,11 @@ class qtype_opaque_soap_client_with_timeout extends SoapClient {
         curl_setopt_array($curl, $this->curloptions);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $request);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-
+        print_object(" curl url ");
+        print_object($curl);
         $response = curl_exec($curl);
+        print_object(" response");
+        print_object($response);
         if (curl_errno($curl)) {
             throw new SoapFault('Receiver', curl_error($curl));
         }
