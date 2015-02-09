@@ -14,7 +14,7 @@ we don't know about.
 
 
 Opaque has been available since Moodle 1.8, but this version is compatible with
-Moodle 2.5.x.
+Moodle 2.6+.
 
 This question behaviour also requires the Opaque question type to be installed.
 
