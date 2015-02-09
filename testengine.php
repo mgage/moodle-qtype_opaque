@@ -22,6 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+define("DEBUG_CONNECT", 0);
 
 require_once(dirname(__FILE__) . '/../../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
@@ -53,7 +54,9 @@ foreach ($engine->questionengines as $engineurl) {
 
     try {
         $engine->urlused = $engineurl;
+        if (DEBUG_CONNECT) {print_object("testengine.php: engine to be tested"); print_object($engine);}
         $info = $enginemanager->get_engine_info($engine);
+        if (DEBUG_CONNECT) {print_object("testengine.php: response"); print_object($info);}
         if (is_array($info) && isset($info['engineinfo']['#'])) {
             echo xml_to_dl($info['engineinfo']['#']);
         } else {
