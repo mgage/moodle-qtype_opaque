@@ -171,7 +171,7 @@ class qtype_opaque_soap_client_with_timeout extends SoapClient {
         if ($action) {
             $headers[] = 'SOAPAction: ' . $action;
         } else {
-            $headers[] = 'SOAPAction: none'; // Seemingly, this is necessary.
+            #$headers[] = 'SOAPAction: none'; // Seemingly, this is necessary.
         }
 
         $curl = curl_init($location);
